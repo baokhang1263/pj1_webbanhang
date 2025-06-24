@@ -14,7 +14,7 @@
       <div class="card-body">
         <h5 class="card-title">{{ product.name }}</h5>
         <p class="card-text text-danger">{{ "{:,.0f}".format(product.price) }} VND</p>
-        <form method="POST" action="{{ url_for('add_to_cart', id=product.id) }}">
+        <form method="POST" action="{{ url_for('add_to_cart', product_id=product.id) }}">
           <button class="btn btn-primary w-100">🛒 Thêm vào giỏ</button>
         </form>
       </div>
