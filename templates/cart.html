@@ -22,7 +22,7 @@
           <td>{{ item.product_name }}</td>
           <td>{{ "{:,.0f}".format(item.price) }} VND</td>
           <td>{{ item.quantity }}</td>
-          <td>{{ "{:,.0f}".format(item.price * item.quantity) }} VND</td>
+          {{ (item.price * item.quantity)|int }} VND</td>
           <td>
             <a href="{{ url_for('remove_from_cart', id=item.id) }}" class="btn btn-sm btn-outline-danger">X</a>
           </td>
