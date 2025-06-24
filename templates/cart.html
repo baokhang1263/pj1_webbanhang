@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ hàng</title>
+</head>
+<body>
+    <h1>Giỏ hàng của bạn</h1>
+    {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+            <li>
+                {{ item.name }} (x{{ item.qty }}) = {{ "{:,.0f}".format(item.subtotal) }} VND
+                <a href="{{ url_for('remove_from_cart', product_id=item.id) }}">❌ Xoá</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <p><strong>Tổng cộng: {{ "{:,.0f}".format(total) }} VND</strong></p>
+	<p><a href="{{ url_for('checkout') }}">💳 Tiến hành thanh toán</a></p>
+
+    {% else %}
+        <p>Giỏ hàng trống.</p>
+    {% endif %}
+    <a href="{{ url_for('home') }}">⬅ Quay lại mua hàng</a>
+</body>
+</html>

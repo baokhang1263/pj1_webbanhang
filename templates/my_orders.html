@@ -1,0 +1,21 @@
+<h2>Đơn hàng của {{ current_user.name }}</h2>
+
+{% if orders %}
+    {% for order in orders %}
+        <hr>
+        <p><strong>Đơn hàng #{{ order.id }}</strong></p>
+        <p><strong>Người nhận:</strong> {{ order.name }}</p>
+        <p><strong>SĐT:</strong> {{ order.phone }}</p>
+        <p><strong>Địa chỉ:</strong> {{ order.address }}</p>
+        <p><strong>Tổng tiền:</strong> {{ "{:,.0f}".format(order.total) }} VND</p>
+        <ul>
+            {% for item in order['items'] %}
+                <li>{{ item['product_name'] }} (x{{ item['quantity'] }}) = {{ "{:,.0f}".format(item['price'] * item['quantity']) }} VND</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% else %}
+    <p>Chưa có đơn hàng nào.</p>
+{% endif %}
+
+<a href="{{ url_for('home') }}">⬅ Quay lại trang chủ</a>

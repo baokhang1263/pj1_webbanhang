@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Shop</title>
+</head>
+<body>
+
+{% if current_user.is_authenticated %}
+    Xin chào, {{ current_user.name }} |
+    <a href="{{ url_for('logout') }}">Đăng xuất</a> |
+    <a href="{{ url_for('my_orders') }}">Đơn hàng của tôi</a>
+{% else %}
+    <a href="{{ url_for('login') }}">Đăng nhập</a> |
+    <a href="{{ url_for('register') }}">Đăng ký</a>
+{% endif %}
+<hr>
+
+<h1>Danh sách sản phẩm</h1>
+<ul>
+    {% for p in products %}
+    <li>
+        <img src="{{ p['image'] }}" width="150"><br>
+        <strong>{{ p['name'] }}</strong><br>
+        Giá: {{ "{:,.0f}".format(p['price']) }} VND<br>
+        <a href="{{ url_for('add_to_cart', product_id=p['id']) }}">🛒 Thêm vào giỏ</a>
+    </li>
+    {% endfor %}
+</ul>
+
+
+    <hr>
+    <a href="{{ url_for('view_cart') }}">Xem giỏ hàng</a>
+</body>
+</html>

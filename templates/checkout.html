@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán</title>
+</head>
+<body>
+    <h1>Thông tin thanh toán</h1>
+    <form method="post">
+        Họ tên: <input type="text" name="name" required><br>
+        Số điện thoại: <input type="text" name="phone" required><br>
+        Địa chỉ giao hàng: <br>
+        <textarea name="address" rows="4" cols="30" required></textarea><br><br>
+        <button type="submit">✅ Xác nhận đặt hàng</button>
+    </form>
+    <hr>
+    <h3>Tổng tiền: {{ "{:,.0f}".format(total) }} VND</h3>
+    <a href="{{ url_for('view_cart') }}">⬅ Quay lại giỏ hàng</a>
+</body>
+</html>

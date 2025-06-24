@@ -1,0 +1,28 @@
+<h2>Quản lý sản phẩm (Admin)</h2>
+
+<form method="post">
+    Tên sản phẩm: <input type="text" name="name" required><br>
+    Giá: <input type="number" name="price" required><br>
+    Ảnh (URL): <input type="text" name="image" required><br>
+    <button type="submit">➕ Thêm sản phẩm</button>
+</form>
+
+<hr>
+
+<h3>Danh sách sản phẩm</h3>
+<ul>
+    {% for p in products %}
+    <li>
+        <img src="{{ p['image'] }}" width="100">
+        <strong>{{ p['name'] }}</strong> – {{ "{:,.0f}".format(p['price']) }} VND
+
+        <!-- Nút xoá sản phẩm -->
+        <form action="{{ url_for('delete_product', product_id=p['id']) }}" method="post" style="display:inline;">
+            <button type="submit" onclick="return confirm('Bạn có chắc muốn xoá sản phẩm này?')">🗑️ Xoá</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+
+<a href="{{ url_for('home') }}">⬅ Về trang chủ</a>
