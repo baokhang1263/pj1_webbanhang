@@ -1,26 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Giỏ hàng</title>
-</head>
-<body>
-    <h1>Giỏ hàng của bạn</h1>
-    {% if cart_items %}
-        <ul>
-            {% for item in cart_items %}
-            <li>
-                {{ item.name }} (x{{ item.qty }}) = {{ "{:,.0f}".format(item.subtotal) }} VND
-                <a href="{{ url_for('remove_from_cart', product_id=item.id) }}">❌ Xoá</a>
-            </li>
-            {% endfor %}
-        </ul>
-        <p><strong>Tổng cộng: {{ "{:,.0f}".format(total) }} VND</strong></p>
-	<p><a href="{{ url_for('checkout') }}">💳 Tiến hành thanh toán</a></p>
+{% extends 'base.html' %}
 
-    {% else %}
-        <p>Giỏ hàng trống.</p>
-    {% endif %}
-    <a href="{{ url_for('home') }}">⬅ Quay lại mua hàng</a>
-</body>
-</html>
+{% block title %}Giỏ hàng{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">🛒 Giỏ hàng của bạn</h2>
+
+{% if cart %}
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Tên sản phẩm</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Thành tiền</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart %}
+        <tr>
+          <td>{{ item.product_name }}</td>
+          <td>{{ "{:,.0f}".format(item.price) }} VND</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ "{:,.0f}".format(item.price * item.quantity) }} VND</td>
+          <td>
+            <a href="{{ url_for('remove_from_cart', id=item.id) }}" class="btn btn-sm btn-outline-danger">X</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between align-items-center">
+    <h4 class="text-end text-danger">Tổng: {{ "{:,.0f}".format(total) }} VND</h4>
+    <a href="{{ url_for('checkout') }}" class="btn btn-success btn-lg">✅ Tiến hành thanh toán</a>
+  </div>
+
+{% else %}
+  <div class="alert alert-info">Chưa có sản phẩm nào trong giỏ hàng.</div>
+{% endif %}
+
+<a href="{{ url_for('home') }}" class="btn btn-link mt-4">⬅ Tiếp tục mua hàng</a>
+{% endblock %}
