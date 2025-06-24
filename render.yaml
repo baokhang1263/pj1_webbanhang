@@ -1,4 +1,9 @@
-services:
+git init
+git add .
+git commit -m "initial commit"
+git branch -M main
+git remote add origin https://github.com/baokhang1263/pj1_webbanhang.git
+git push -u origin mainservices:
   - type: web
     name: flask-shop
     env: python
