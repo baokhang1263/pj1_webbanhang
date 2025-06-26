@@ -43,7 +43,8 @@ def home():
     return render_template('index.html', products=products)
 
 
-@app.route('/add_to_cart/<int:product_id>')
+@app.route('/add_to_cart/<int:product_id>', methods=['POST'])
+@login_required
 def add_to_cart(product_id):
     cart = session.get('cart', {})
     product_id = str(product_id)
@@ -57,15 +58,24 @@ def view_cart():
     cart = session.get('cart', {})
     cart_items = []
     total = 0
+
+    conn = get_db_connection()
     for pid, qty in cart.items():
-        for p in products:
-            if str(p['id']) == pid:
-                item = p.copy()
-                item['qty'] = qty
-                item['subtotal'] = item['price'] * qty
-                total += item['subtotal']
-                cart_items.append(item)
+        product = conn.execute('SELECT * FROM products WHERE id = ?', (pid,)).fetchone()
+        if product:
+            item = {
+                'id': product['id'],
+                'name': product['name'],
+                'price': product['price'],
+                'qty': qty,
+                'subtotal': product['price'] * qty
+            }
+            total += item['subtotal']
+            cart_items.append(item)
+    conn.close()
+
     return render_template('cart.html', cart_items=cart_items, total=total)
+
 @app.route('/remove_from_cart/<int:product_id>')
 def remove_from_cart(product_id):
     cart = session.get('cart', {})
